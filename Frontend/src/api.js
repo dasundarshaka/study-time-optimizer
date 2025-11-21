@@ -8,4 +8,4 @@ export const solveGpa = async (data) => {
   const res = await api.post('/solve', data);
   return res.data;
 };
-hh
+
