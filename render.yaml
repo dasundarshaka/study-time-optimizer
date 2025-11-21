@@ -7,3 +7,17 @@ services:
     envVars:
       - key: PORT
         value: "8081"
+
+  - type: web
+    name: simplex-frontend
+    runtime: static
+    rootDir: Frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
