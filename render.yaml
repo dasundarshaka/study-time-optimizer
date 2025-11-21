@@ -1,10 +1,9 @@
 services:
   - type: web
     name: simplex-backend
-    runtime: java
+    runtime: docker
     rootDir: Backend
-    buildCommand: ./mvnw clean package -DskipTests
-    startCommand: java -jar target/simplex-0.0.1-SNAPSHOT.jar
+    dockerfilePath: ./Dockerfile
     envVars:
-      - key: JAVA_VERSION
-        value: "21"
+      - key: PORT
+        value: "8081"
