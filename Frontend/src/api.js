@@ -10,7 +10,7 @@ const getBaseURL = () => {
   // Production URL - Replace this with your actual Render.com backend URL
   // After deploying to Render, it will give you a URL like:
   // https://simplex-backend-xxxx.onrender.com
-  return 'https://simplex-backend-0y9o.onrender.com/api';
+  return 'https://study-time-optimizer-6.onrender.com';
 };
 
 const api = axios.create({
