@@ -1,26 +1,56 @@
-import axios from 'axios';
+﻿import axios from 'axios';
 
-<<<<<<< HEAD
-// Configuration for different environments
 const getBaseURL = () => {
-  // Check if we're in development (running locally)
   if (import.meta.env.DEV) {
     return 'http://localhost:8081/api';
   }
-  
-  // Production URL - Replace this with your actual Render.com backend URL
-  // After deploying to Render, it will give you a URL like:
-  // https://simplex-backend-xxxx.onrender.com
-  return 'https://study-time-optimizer-6.onrender.com';
+  return 'https://study-time-optimizer-6.onrender.com/api';
 };
 
-=======
->>>>>>> parent of 951686c (Refactor API setup and enhance error handling)
 const api = axios.create({
-  baseURL: 'https://simplex-backend-0y9o.onrender.com/api',  // Replace with your actual Render URL
+  baseURL: getBaseURL(),
+  timeout: 30000,
+  headers: {
+    'Content-Type': 'application/json',
+  }
 });
 
+api.interceptors.request.use(
+  (config) => {
+    console.log('Making request to:', config.baseURL + config.url);
+    return config;
+  },
+  (error) => {
+    console.error('Request error:', error);
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => {
+    console.log('Response received:', response.status);
+    return response;
+  },
+  (error) => {
+    if (error.response) {
+      console.error('Server error:', error.response.status, error.response.data);
+    } else if (error.request) {
+      console.error('No response from server.');
+    } else {
+      console.error('Request setup error:', error.message);
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const solveGpa = async (data) => {
-  const res = await api.post('/solve', data);
-  return res.data;
+  try {
+    const res = await api.post('/solve', data);
+    return res.data;
+  } catch (error) {
+    console.error('Error in solveGpa:', error);
+    throw error;
+  }
 };
+
+export default api;
